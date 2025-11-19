@@ -22,7 +22,6 @@ import { UserEntity } from './entity/user.entity';
     @UseGuards(JwtAuthGuard)
     @ApiOkResponse({ type: UserEntity })
     async me(@Request() req) {
-      console.log(req.user)
       return await this.usersService.findOne(req.user.id);
     }
 

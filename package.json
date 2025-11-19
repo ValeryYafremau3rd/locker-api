@@ -6,6 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
+    "prisma:migrate": "npx prisma migrate",
     "build": "nest build --env-file prod.env.",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start  --env-file prod.env",
