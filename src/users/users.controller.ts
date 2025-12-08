@@ -31,4 +31,11 @@ import { UserEntity } from './entity/user.entity';
     async findOne(@Param('id', ParseIntPipe) id: number) {
       return await this.usersService.findOne(id);
     }
+
+    @Get('/')
+    @UseGuards(JwtAuthGuard)
+    @ApiOkResponse({ type: UserEntity })
+    async findAll() {
+      return await this.usersService.findAllUsers();
+    }
 }

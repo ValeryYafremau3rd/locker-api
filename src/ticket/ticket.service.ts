@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { Ticket } from '@prisma/client';
+import { Status, Ticket } from '@prisma/client';
 
 @Injectable()
 export class TicketService {
@@ -11,9 +11,11 @@ export class TicketService {
     authorId: number;
     boardId: number;
     description: string;
+    statusId: number;
+    assignedToId: number;
   }): Promise<Ticket> {
     return this.prisma.ticket.create({
-      data: { ...data, statusId: 1, assignedToId: data.authorId },
+      data: { ...data },
     });
   }
 
@@ -40,6 +42,10 @@ export class TicketService {
         board: true,
       },
     });
+  }
+
+  async findStatuses(): Promise<Status[]> {
+    return this.prisma.status.findMany();
   }
 
   async findOne(id: number): Promise<Ticket | null> {
