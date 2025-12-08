@@ -13,6 +13,7 @@ import {
 import { ApiOkResponse } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { TicketDto } from './dto/ticket.dto';
+import { StatusEntity } from './entities/status.entity';
 import { TicketEntity } from './entities/ticket.entity';
 import { TicketService } from './ticket.service';
 
@@ -36,6 +37,13 @@ export class TicketController {
     });
   }
 
+  @Get('statuses')
+  @UseGuards(JwtAuthGuard)
+  @ApiOkResponse({ type: StatusEntity })
+  async findStatuses() {
+    return await this.ticketService.findStatuses();
+  }
+
   @Get(':id')
   @UseGuards(JwtAuthGuard)
   @ApiOkResponse({ type: TicketEntity })
@@ -55,13 +63,15 @@ export class TicketController {
   @ApiOkResponse({ type: TicketEntity })
   async create(
     @Request() req,
-    @Body() { title, description, boardId }: TicketDto,
+    @Body() { title, description, assignedToId, statusId, boardId }: TicketDto,
   ) {
     return this.ticketService.create({
       title,
-      authorId: req.user.id,
       description,
-      boardId: +boardId,
+      boardId,
+      assignedToId: assignedToId || req.user.id,
+      statusId,
+      authorId: req.user.id,
     });
   }
 
