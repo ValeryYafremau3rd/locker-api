@@ -24,7 +24,6 @@ export class TicketDto {
 
     @IsNumber()
     @IsNotEmpty()
-    @IsOptional()
     @ApiProperty()
-    statusId?: number;
+    statusId: number;
 }
